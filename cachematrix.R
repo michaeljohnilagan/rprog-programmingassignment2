@@ -1,15 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
+## 'cacheSolve' is a function that inverts a matrix. 
+## if a cached solution is found, it is returned; 
+## otherwise, an inverse is calculated, cached, and returned.
+## 'x' is a list returned by 'makeCacheMatrix'.
+## it is assumed that 'x' is invertible.
+## return object is the inverse of the cached matrix.
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+cacheSolve <- function(x, ...){
+	if(!is.null(x$getinv())){
+		message("cached solution found. returning cached solution.")
+		x$getinv()
+	} # if cached inverse exists, return it
+	else {
+		message("cached solution not found. calculating new solution...")
+		x$setinv(solve(x$get()))
+		message("new inverse cached. returning cached solution.")
+		x$getinv()
+	} # otherwise, solve and cache new inverse
 }
 
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-}
+# for testing:
+# thematrix = makeCacheMatrix()
+# thematrix$get()
+# thematrix$getinv()
+# thematrix$set(matrix(c(2,1,1,4,1,5,9,2,7),3,3))
+# thematrix$get()
+# thematrix$getinv()
+# cacheSolve(thematrix)
+# thematrix$get()
+# thematrix$getinv()
+# cacheSolve(thematrix)
+# round(thematrix$getinv()%*%thematrix$get(),6)
